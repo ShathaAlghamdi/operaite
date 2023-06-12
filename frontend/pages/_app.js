@@ -1,11 +1,6 @@
+import '../src/styles/globals.css'
 
-
-const _app = () => {
-  return (
-    <div>
-    <h2> OperAIte </h2>
-    </div>
-  )
+export default function App({ Component, pageProps }) {
+  return <div className="bg-gray-800"><Component {...pageProps} /></div>
 }
 
-export default _app
