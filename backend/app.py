@@ -13,14 +13,14 @@ import openai
 
 
 # Setup Stripe python client library
-load_dotenv(dotenv_path="../frontend/.env")
+load_dotenv(find_dotenv())
 
 
 # print(os.getenv("OPENAI_API_KEY"))
 
 openai.api_key = os.getenv("OPENAI_API_KEY")
 
-
+print(os.getenv("OPENAI_API_KEY"))
 
 app = Flask(__name__,
             static_url_path="",
@@ -52,6 +52,7 @@ def chat():
         # )
 
         result = ''
+        
         messages.append(response.choices[0].message)
         for choice in response.choices:
             result += choice.message.content
@@ -61,16 +62,16 @@ def chat():
             result=result,
             messages=messages
         )
-    # except openai.error.AuthenticationError as e:
-    #     print("OpenAI unknown authentication error")
-    #     print(e.json_body)
-    #     print(e.headers)
-    #     return jsonify(
-    #         access=False,
-    #         headers=e.headers,
-    #         json_body=e.json_body,
+    except openai.error.AuthenticationError as e:
+        print("OpenAI unknown authentication error")
+        print(e.json_body)
+        print(e.headers)
+        return jsonify(
+            access=False,
+            headers=e.headers,
+            json_body=e.json_body,
 
-    #     )
+        )
     except Exception as e:
         return jsonify(
             access=False,
