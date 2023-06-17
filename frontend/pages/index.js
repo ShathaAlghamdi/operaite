@@ -17,14 +17,13 @@ export default function Home() {
     setInputValue('');
   }
   const sendMessage = (message) => {
-    const url = 'http://localhost:4242/chat';
 
     var logs = [...chatLog, { role: "user", content: message }]
 
     // console.info(logs)
     // return
 
-    
+
 
 
     const data = {
@@ -46,10 +45,11 @@ export default function Home() {
     // myHeaders.append("Access-Control-Allow-Origin", "*");
     // myHeaders.append("Access-Control-Allow-Methods", "POST");
 
-    var raw = JSON.stringify({
-      "api_secret_key": "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",
+    var raw = {
+      // "api_secret_key": "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",
+      // "api_secret_key": process.env.OPENAI_API_KEY,
       "messages": logs
-    });
+    };
 
     var requestOptions = {
       method: 'POST',
@@ -58,25 +58,38 @@ export default function Home() {
       // redirect: 'follow'
     };
 
-    // fetch("https://api-operaite.onrender.com/chat", requestOptions)
-    fetch("http://127.0.0.1:4242/chat", requestOptions)
-      .then(response => response.json())
-      .then((response) => {
-          console.log(response);
-          setChatLog((prevChatLog) => [...prevChatLog, { role: 'assistant', content: response.choices[0].message.content }])
-          setIsLoading(false);
-        }).catch((error) => {
-          setIsLoading(false);
-          console.log(error);
-        })
-    // axios.post(url, data).then((response) => {
-    //   console.log(response);
-    //   setChatLog((prevChatLog) => [...prevChatLog, { type: 'bot', message: response.data.choices[0].message.content }])
-    //   setIsLoading(false);
-    // }).catch((error) => {
-    //   setIsLoading(false);
-    //   console.log(error);
-    // })
+    const url = 'https://api-operaite.onrender.com/chat';
+    // const url = 'http://127.0.0.1:4242/chat';
+    try {
+
+
+
+      // fetch("https://api-operaite.onrender.com/chat", requestOptions)
+      // fetch(url, requestOptions)
+      //   .then(response => response.json())
+      //   .then((response) => {
+      //     console.log(response);
+      //     setChatLog((prevChatLog) => [...prevChatLog, { role: 'assistant', content: response.choices[0].message.content }])
+      //     setIsLoading(false);
+      //   }).catch((error) => {
+      //     setIsLoading(false);
+      //     console.log(error);
+      //   })
+
+      axios.post(url, raw).then((response) => {
+        console.log(response);
+        // return
+        // setChatLog((prevChatLog) => [...prevChatLog, { type: 'bot', message: response.data.choices[0].message.content }])
+        setChatLog((prevChatLog) => [...prevChatLog, { role: 'assistant', content: response.data.choices[0].message.content }])
+
+        setIsLoading(false);
+      }).catch((error) => {
+        setIsLoading(false);
+        console.log(error);
+      })
+    }
+    catch {
+    }
   }
 
   return (
