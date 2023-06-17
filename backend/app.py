@@ -50,10 +50,10 @@ def chat():
             model="gpt-3.5-turbo",
             messages=messages)
         
-        # return jsonify(
-        #     access=True,
-        #     response=response
-        # )
+        return jsonify(
+            access=True,
+            response=response
+        )
 
         result = ''
         
