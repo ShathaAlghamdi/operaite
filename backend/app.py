@@ -85,6 +85,5 @@ def chat(data: Item):
         }
 
 
-# if __name__ == "__main__":
-#     uvicorn.run('app:app',
-#                 port=4242, reload=True, debug=True)
+if __name__ == "__main__":
+    uvicorn.run('app:app')
