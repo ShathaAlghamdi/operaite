@@ -58,7 +58,7 @@ export default function Home() {
       // redirect: 'follow'
     };
 
-    fetch("http://127.0.0.1:4242/chat", requestOptions)
+    fetch("https://api-operaite.onrender.com/chat", requestOptions)
       .then(response => response.json())
       .then((response) => {
           console.log(response);
