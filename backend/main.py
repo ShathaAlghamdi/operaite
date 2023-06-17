@@ -12,23 +12,18 @@ import openai
 from flask_cors import CORS, cross_origin
 
 
-# Setup Stripe python client library
 load_dotenv(find_dotenv())
 
 
 # print(os.getenv("OPENAI_API_KEY"))
 
-# openai.api_key = os.getenv("OPENAI_API_KEY")
+openai.api_key = os.getenv("OPENAI_API_KEY")
 
-# print(os.getenv("OPENAI_API_KEY"))
 
 app = Flask(__name__)
 
-# CORS(app, supports_credentials=True, origins=[
-#      "http://localhost:3000"], resources={r"/foo": {"origins": "http://localhost:3000"}})
 CORS(app, resources={r"/api/*": {"origins": "*", "methods": ["GET", "POST"]}})
 
-# @cross_origin(supports_credentials=True)
 
 
 @app.route('/', methods=["GET"])

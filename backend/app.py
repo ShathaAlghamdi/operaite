@@ -3,10 +3,16 @@ import uvicorn
 from fastapi.middleware.cors import CORSMiddleware
 import openai
 from pydantic import BaseModel
+from dotenv import load_dotenv, find_dotenv
+import os
+
+load_dotenv(find_dotenv())
+openai.api_key = os.getenv("OPENAI_API_KEY")
+
 
 
 class Item(BaseModel):
-    api_secret_key: str
+    # api_secret_key: str
     messages: list
 
 
@@ -50,10 +56,10 @@ def chat(data: Item):
     # body = request.json
     messages = data.messages
     # return data
-    api_secret_key = data.api_secret_key
+    # api_secret_key = data.api_secret_key
 
     try:
-        openai.api_key = api_secret_key
+        # openai.api_key = api_secret_key
 
         response = openai.ChatCompletion.create(
             model="gpt-3.5-turbo",
