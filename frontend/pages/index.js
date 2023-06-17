@@ -47,7 +47,7 @@ export default function Home() {
     // myHeaders.append("Access-Control-Allow-Methods", "POST");
 
     var raw = JSON.stringify({
-      "api_secret_key": "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",
+      "api_secret_key": "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",
       "messages": logs
     });
 
