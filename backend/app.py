@@ -18,7 +18,7 @@ load_dotenv(find_dotenv())
 
 # print(os.getenv("OPENAI_API_KEY"))
 
-openai.api_key = os.getenv("OPENAI_API_KEY")
+# openai.api_key = os.getenv("OPENAI_API_KEY")
 
 print(os.getenv("OPENAI_API_KEY"))
 
@@ -38,10 +38,14 @@ def init():
 
 @app.route('/chat', methods=["POST"])
 def chat():
+    
     body = request.json
     messages = body['messages']
+    api_secret_key = body['api_secret_key']
 
     try:
+        openai.api_key = api_secret_key
+
         response = openai.ChatCompletion.create(
             model="gpt-3.5-turbo",
             messages=messages)
