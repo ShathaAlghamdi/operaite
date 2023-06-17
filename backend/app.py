@@ -68,8 +68,8 @@ def chat():
         print(e.headers)
         return jsonify(
             access=False,
-            headers=e.headers,
-            json_body=e.json_body,
+            headers=str(e.headers),
+            json_body=str(e.json_body),
 
         )
     except Exception as e:
