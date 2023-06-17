@@ -38,42 +38,39 @@ def init():
 
 @app.route('/chat', methods=["POST"])
 def chat():
-    # return os.getenv("OPENAI_API_KEY")
-        
-    # openai.api_key = os.getenv("OPENAI_API_KEY")
-
     body = request.json
     messages = body['messages']
 
-    # return messages
-    # return str(type(messages))
-
     try:
-    
-
         response = openai.ChatCompletion.create(
             model="gpt-3.5-turbo",
-            messages=messages
-        )
+            messages=messages)
+        
+        # return jsonify(
+        #     access=True,
+        #     response=response
+        # )
 
         result = ''
         messages.append(response.choices[0].message)
-        # print("response.choices", response.choices.message)
         for choice in response.choices:
             result += choice.message.content
-
-        print(result)
-
-        # results = [**messages +  **result]
-
-        # print(messages)
 
         return jsonify(
             access=True,
             result=result,
             messages=messages
         )
-    
+    # except openai.error.AuthenticationError as e:
+    #     print("OpenAI unknown authentication error")
+    #     print(e.json_body)
+    #     print(e.headers)
+    #     return jsonify(
+    #         access=False,
+    #         headers=e.headers,
+    #         json_body=e.json_body,
+
+    #     )
     except Exception as e:
         return jsonify(
             access=False,
