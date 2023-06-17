@@ -9,7 +9,7 @@ import os
 from flask import Flask, redirect, jsonify, json, request, current_app
 from dotenv import load_dotenv, find_dotenv
 import openai
-
+from flask_cors import CORS, cross_origin
 
 
 # Setup Stripe python client library
@@ -20,11 +20,15 @@ load_dotenv(find_dotenv())
 
 # openai.api_key = os.getenv("OPENAI_API_KEY")
 
-print(os.getenv("OPENAI_API_KEY"))
+# print(os.getenv("OPENAI_API_KEY"))
 
-app = Flask(__name__,
-            static_url_path="",
-            static_folder='public')
+app = Flask(__name__)
+
+# CORS(app, supports_credentials=True, origins=[
+#      "http://localhost:3000"], resources={r"/foo": {"origins": "http://localhost:3000"}})
+CORS(app, resources={r"/api/*": {"origins": "*", "methods": ["GET", "POST"]}})
+
+# @cross_origin(supports_credentials=True)
 
 
 @app.route('/', methods=["GET"])
@@ -35,10 +39,13 @@ def init():
         message="Hello world from operaite .."
     )
 
+# @cross_origin(supports_credentials=True)
+
 
 @app.route('/chat', methods=["POST"])
 def chat():
-    
+    response.headers.add('Access-Control-Allow-Origin', '*')
+
     body = request.json
     messages = body['messages']
     api_secret_key = body['api_secret_key']
@@ -49,14 +56,14 @@ def chat():
         response = openai.ChatCompletion.create(
             model="gpt-3.5-turbo",
             messages=messages)
-        
+
         return jsonify(
             access=True,
             response=response
         )
 
         result = ''
-        
+
         messages.append(response.choices[0].message)
         for choice in response.choices:
             result += choice.message.content
@@ -107,7 +114,7 @@ def chat_langchain():
 
     return "done!"
     # return os.getenv("OPENAI_API_KEY")
-        
+
     # openai.api_key = os.getenv("OPENAI_API_KEY")
 
     messages = request.json
@@ -115,7 +122,7 @@ def chat_langchain():
     # return messages
 
     try:
-          
+
         template = """Assistant is a large language model trained by OpenAI.
 
         Assistant is designed to be able to assist with a wide range of tasks, from answering simple questions to providing in-depth explanations and discussions on a wide range of topics. As a language model, Assistant is able to generate human-like text based on the input it receives, allowing it to engage in natural-sounding conversations and provide responses that are coherent and relevant to the topic at hand.
@@ -128,8 +135,8 @@ def chat_langchain():
         Human: {human_input}
         Assistant:"""
 
-        prompt = PromptTemplate(input_variables=["history", "human_input"], template=template)
-
+        prompt = PromptTemplate(
+            input_variables=["history", "human_input"], template=template)
 
         chatgpt_chain = LLMChain(
             llm=OpenAI(temperature=0),
@@ -152,7 +159,7 @@ def chat_langchain():
             message="Hello world from operaite ..",
             output=output
         )
-    
+
     except Exception as e:
         return jsonify(
             access=False,
