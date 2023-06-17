@@ -1,8 +1,6 @@
 from fastapi import FastAPI, requests
 import uvicorn
-
 from fastapi.middleware.cors import CORSMiddleware
-
 import openai
 from pydantic import BaseModel
 
@@ -61,7 +59,6 @@ def chat(data: Item):
             model="gpt-3.5-turbo",
             messages=messages)
 
-
         return response
         return {
             "access": True,
@@ -89,5 +86,5 @@ def chat(data: Item):
 
 
 if __name__ == "__main__":
-    uvicorn.run('main:app',
+    uvicorn.run('app:app',
                 port=4242, reload=True, debug=True)
