@@ -58,7 +58,8 @@ export default function Home() {
       // redirect: 'follow'
     };
 
-    fetch("https://api-operaite.onrender.com/chat", requestOptions)
+    // fetch("https://api-operaite.onrender.com/chat", requestOptions)
+    fetch("http://127.0.0.1:4242/chat", requestOptions)
       .then(response => response.json())
       .then((response) => {
           console.log(response);
@@ -83,7 +84,7 @@ export default function Home() {
       <div className="flex flex-col h-screen bg-gray-900">
         <h1 className="sticky top-0 bg-gradient-to-r from-white to-cyan-300 text-transparent bg-clip-text text-center py-3 font-bold text-6xl">Oper<span className="text-white">AI</span>te</h1>
         <div className="flex-grow p-6 bg-gray-900">
-          <h1>key {process.env.OPENAI_API_KEY}</h1>
+          {/* <h1>key {process.env.OPENAI_API_KEY}</h1> */}
           <div className="flex flex-col space-y-4 ">
             {
               chatLog.map((message, index) => (
