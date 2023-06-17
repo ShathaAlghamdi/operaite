@@ -39,7 +39,7 @@ def inits():
     return {
 
         "access": True,
-        "message": "Hello world from operaite .."
+        "message": "Hello world from operaite Fast API.."
     }
 
 # @cross_origin(supports_credentials=True)
